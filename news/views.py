@@ -14,7 +14,7 @@ class NewsList(View):
             if IntervalSchedule.objects.all()[0]:
                 form = SheduleForm(initial={'timeout': IntervalSchedule.objects.all()[0].every})
         except Exception:
-            pass
+            form = SheduleForm()
         posts = ActualNews.objects.all()
         return render(request, 'index.html', context={'posts': posts, 'form': form})
 
