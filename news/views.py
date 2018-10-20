@@ -10,8 +10,11 @@ from django_celery_beat.models import IntervalSchedule
 
 class NewsList(View):
     def get(self, request):
-        if IntervalSchedule.objects.all()[0]:
-            form = SheduleForm(initial={'timeout': IntervalSchedule.objects.all()[0].every})
+        try:
+            if IntervalSchedule.objects.all()[0]:
+                form = SheduleForm(initial={'timeout': IntervalSchedule.objects.all()[0].every})
+        except Exception:
+            pass
         posts = ActualNews.objects.all()
         return render(request, 'index.html', context={'posts': posts, 'form': form})
 

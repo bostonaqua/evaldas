@@ -6,13 +6,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-      - .:/app
-      - /tmp/
     links:
       - rabbit
-    expose:
-      - "8000"
+    ports:
+      - "8000:8000"
 
 
   rabbit:
@@ -22,20 +19,20 @@ services:
       - "5672:5672"
 
 
-  celeryworker:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - rabbit
-    command: celery -A evaldas worker -l info
-    restart: "on-failure"
-
-
-  celerybeat:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - rabbit
-    command: celery -A evaldas beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+#  celeryworker:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    depends_on:
+#      - rabbit
+#    command: celery -A evaldas worker -l info
+#    restart: "on-failure"
+#
+#
+#  celerybeat:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    depends_on:
+#      - rabbit
+#    command: celery -A evaldas beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
