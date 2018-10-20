@@ -23,7 +23,10 @@ class NewsList(View):
         form = SheduleForm(request.POST)
         if form.is_valid():
             timeout = form.cleaned_data['timeout']
-            schedule = IntervalSchedule.objects.all()[0]
+            try:
+                schedule = IntervalSchedule.objects.all()[0]
+            except Exception:
+                schedule = IntervalSchedule()
             schedule.every = timeout
             schedule.save()
             messages.add_message(request, messages.INFO, 'Updating every {} seconds'.format(timeout))

@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      - .:/evaldas
     links:
       - rabbit
     ports:
@@ -20,6 +22,7 @@ services:
 
 
 #  celeryworker:
+#    <<: *django
 #    build:
 #      context: .
 #      dockerfile: Dockerfile
@@ -27,12 +30,12 @@ services:
 #      - rabbit
 #    command: celery -A evaldas worker -l info
 #    restart: "on-failure"
-#
-#
-#  celerybeat:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    depends_on:
-#      - rabbit
-#    command: celery -A evaldas beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+
+
+  celerybeat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbit
+    command: celery -A evaldas beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
