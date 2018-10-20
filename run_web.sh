@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 sleep 5
 
 cd evaldas
 
-su -m myuser -c "python manage.py makemigrations evaldas"
+python manage.py makemigrations evaldas
 
-su -m myuser -c "python manage.py migrate"
+python manage.py migrate
 
-su -m myuser -c "python manage.py runserver 8000"
+python manage.py runserver 8000
