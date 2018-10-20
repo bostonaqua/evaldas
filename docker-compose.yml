@@ -1,41 +1,34 @@
-version: '2'
+version: '3'
 
 services:
 
   django:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - .:/evaldas
+    build: .
     links:
       - rabbit
     ports:
       - "8000:8000"
+    volumes:
+      - .:/evaldas
 
 
-  rabbit:
-    image: rabbitmq:3.6.9-alpine
-    hostname: rabbit
-    ports:
-      - "5672:5672"
-
-
+#  rabbit:
+#    image: rabbitmq:3.6.9-alpine
+#    hostname: rabbit
+#    ports:
+#      - "5672:5672"
+#
+#
 #  celeryworker:
-#    <<: *django
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
+#    build: .
 #    depends_on:
 #      - rabbit
 #    command: celery -A evaldas worker -l info
 #    restart: "on-failure"
 
 
-  celerybeat:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - rabbit
-    command: celery -A evaldas beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+#  celerybeat:
+#    build: .
+#    depends_on:
+#      - rabbit
+#    command: celery -A evaldas beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
