@@ -6,4 +6,4 @@ RUN apk add git bash && \
     cd evaldas && \
     pip install -r requirements.txt && \
 
-RUN adduser --disabled-password --gecos '' myuser
+CMD bash run_web.sh
