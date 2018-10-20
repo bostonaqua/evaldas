@@ -1,0 +1,51 @@
+version: '2'
+
+services:
+
+  # RabbitMQ - queue
+  rabbit:
+    hostname: rabbit
+    image: rabbitmq:3.6.9-alpine
+    ports:
+      - "5672:5672"  
+     
+  
+  # Django web server - celery master
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: web
+    command: sh ./run_web.sh
+    volumes:
+      - .:/evaldas  
+    ports:
+      - "8000:8000"
+    links:
+      - rabbit
+  
+  # Celery worker
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh ./run_celery_worker.sh
+    volumes:
+      - .:/evaldas
+    links:
+      - rabbit
+    depends_on:
+      - rabbit
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh ./run_celery_scheduler.sh
+    volumes:
+      - .:/evaldas
+    links:
+      - rabbit
+    depends_on:
+      - rabbit
+      - worker
