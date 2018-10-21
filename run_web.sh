@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-sed -i 's%amqp://localhost%amqp://localhost%g' evaldas/settings.py
+sed -i 's%amqp://localhost%amqp://rabbit%g' evaldas/settings.py
 python manage.py makemigrations
 python manage.py migrate
 supervisord -n
