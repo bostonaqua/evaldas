@@ -12,23 +12,8 @@ services:
       - .:/evaldas
 
 
-#  rabbit:
-#    image: rabbitmq:3.6.9-alpine
-#    hostname: rabbit
-#    ports:
-#      - "5672:5672"
-#
-#
-#  celeryworker:
-#    build: .
-#    depends_on:
-#      - rabbit
-#    command: celery -A evaldas worker -l info
-#    restart: "on-failure"
-
-
-#  celerybeat:
-#    build: .
-#    depends_on:
-#      - rabbit
-#    command: celery -A evaldas beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+  rabbit:
+    image: rabbitmq:3.6.9-alpine
+    hostname: rabbit
+    ports:
+      - "5672:5672"
